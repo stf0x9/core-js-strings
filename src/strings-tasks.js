@@ -499,8 +499,40 @@ function extractEmails(str) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  const encoded = [];
+
+  function encodeLetter(letter) {
+    const index = alphabet.indexOf(letter);
+    if (index > 13) {
+      return alphabet[index - 13];
+    }
+    if (index < 13) {
+      return alphabet[index + 13];
+    }
+    return alphabet[0];
+  }
+
+  function isLowerCaseLetter(letter) {
+    return alphabet.indexOf(letter) !== -1;
+  }
+
+  function isUpperCaseLetter(letter) {
+    return alphabet.indexOf(letter.toLowerCase()) !== -1;
+  }
+
+  for (let i = 0; i < str.length; i += 1) {
+    const letterToEncode = str[i];
+    if (isLowerCaseLetter(letterToEncode)) {
+      encoded.push(encodeLetter(letterToEncode));
+    } else if (isUpperCaseLetter(letterToEncode)) {
+      encoded.push(encodeLetter(letterToEncode.toLowerCase()).toUpperCase());
+    } else {
+      encoded.push(letterToEncode);
+    }
+  }
+  return encoded.join('');
 }
 
 /**
